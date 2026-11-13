@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vitrine Jornada do Saber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Mesa de comando de uma escola: azul-noite, ouro de cofre, uma cor por matéria. Um slide por vez, tela cheia de TV. */
+:root{--bg:#0a1122;--panel:#101a30;--panel2:#16233f;--line:#25365a;--ink:#eef3ff;--mut:#9aabcf;--gold:#ffc84a;--ok:#4fd08a;
+--hist:#e8a93a;--arte:#ef6a95;--cie:#43c987;--mat:#4ba6ff;--por:#b58aff;
+--fd:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--fb:"Figtree","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:400 clamp(15px,1.12vw,26px)/1.4 var(--fb);color-scheme:dark;overflow:hidden;
+background-image:radial-gradient(60em 30em at 85% -10%,#1b2f5a55,transparent),radial-gradient(50em 30em at -10% 110%,#3a2a0a40,transparent)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.app{height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:1.2vh;padding:1.6vh 2vw}
+header{display:flex;justify-content:space-between;align-items:center;gap:1em}
+.logo{font:800 1.5em var(--fd);letter-spacing:-.01em}.logo b{color:var(--gold)}
+.fonte{color:var(--mut);font-size:.8em;text-align:right}
+main{position:relative;min-height:0}
+.slide{display:none;height:100%;overflow:auto;padding:.4em .2em}
+.slide.on{display:block;animation:ent .5s ease both}
+@keyframes ent{from{transform:translateY(1.5vh)}to{transform:none}}
+h1,h2{font-family:var(--fd);margin:0;letter-spacing:-.02em;text-wrap:balance}
+h1{font-size:3.2em;line-height:1.02;font-weight:800}
+h2{font-size:2.1em;font-weight:800;line-height:1.1}
+.sub{color:var(--mut);margin:.4em 0 1em;font-size:1.1em;max-width:62em}
+.grid{display:grid;gap:1.1em}
+.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:1.2fr 1fr}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:1.1em;padding:1.1em 1.3em;min-width:0}
+.big{font:800 3.6em/1 var(--fd);color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.big small{font-size:.4em;color:var(--mut);font-weight:600;letter-spacing:0}
+.rot{color:var(--mut);margin-top:.35em}
+.k{display:inline-block;font-size:.75em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:.4em}
+/* barras */
+.bars{display:grid;gap:.55em}
+.bar{display:grid;grid-template-columns:minmax(8em,15em) 1fr 6.5em;align-items:center;gap:.8em;background:none;border:0;padding:.15em 0;text-align:left}
+.bar .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.bar .tr{height:1.15em;background:var(--panel2);border-radius:99px;overflow:hidden}
+.bar .tr i{display:block;height:100%;border-radius:99px;background:var(--c,var(--gold));transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.bar .v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.bar:hover .t,.bar.sel .t{color:var(--gold)}
+/* colunas */
+.cols{display:flex;align-items:flex-end;gap:.6em;height:16em;padding-top:1.4em}
+.col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:.4em;background:none;border:0;height:100%;min-width:0;padding:0}
+.col i{display:block;width:100%;max-width:5em;border-radius:.5em .5em .2em .2em;background:linear-gradient(var(--mat),#2e6fc0);transition:height .8s cubic-bezier(.2,.8,.2,1)}
+.col.sel i,.col:hover i{background:linear-gradient(var(--gold),#d09a1c)}
+.col b{font-variant-numeric:tabular-nums;font-size:.9em}.col span{color:var(--mut);font-size:.85em}
+.dica{margin:.8em 0 0;min-height:1.6em;color:var(--gold);font-weight:600}
+/* matérias */
+.mat{display:grid;gap:.3em;text-align:left;border:2px solid var(--line);background:var(--panel);border-radius:1.1em;padding:1em 1.2em;border-top:.45em solid var(--c)}
+.mat.sel{border-color:var(--c);background:var(--panel2)}
+.mat h3{margin:0;font:800 1.5em var(--fd)}.mat .p{color:var(--mut)}.mat .n{font:800 1.9em var(--fd);color:var(--c);font-variant-numeric:tabular-nums}
+.det{display:grid;grid-template-columns:repeat(4,1fr);gap:1em;margin-top:1.1em}
+.det div b{display:block;font:800 1.9em var(--fd);color:var(--c,var(--gold));font-variant-numeric:tabular-nums}
+.det div span{color:var(--mut);font-size:.9em}
+/* opiniões */
+.nota{font:800 6em/1 var(--fd);color:var(--gold);letter-spacing:-.04em}.nota small{font-size:.32em;color:var(--mut)}
+.est{color:var(--gold);font-size:1.7em;letter-spacing:.1em}
+.pill{display:inline-block;margin:.2em .4em .2em 0;padding:.35em .9em;border-radius:99px;background:var(--panel2);border:1px solid var(--line);font-weight:700}
+.pill b{color:var(--ok)}
+.cit{min-height:7.5em;display:flex;flex-direction:column;justify-content:center;gap:.5em;font:600 1.5em/1.3 var(--fb)}
+.cit q{quotes:"\201C" "\201D"}.cit small{color:var(--mut);font-size:.65em;font-weight:600}
+/* passos */
+.passo{display:grid;gap:.3em}.passo b{font:800 3em/1 var(--fd);color:var(--gold)}.passo h3{margin:0;font:800 1.4em var(--fd)}.passo p{margin:0;color:var(--mut)}
+.eq{display:grid;gap:.3em;border-left:.4em solid var(--c);padding-left:.9em}.eq b{font-size:1.15em}.eq span{color:var(--mut)}
+/* navegação */
+nav{display:flex;gap:.6em;align-items:stretch}
+.tabs{flex:1;display:grid;grid-template-columns:repeat(8,1fr);gap:.5em}
+.tab{min-height:3.6em;border-radius:.9em;border:1px solid var(--line);background:var(--panel);font-weight:700;position:relative;overflow:hidden;padding:.3em .4em}
+.tab.on{background:var(--panel2);border-color:var(--gold);color:var(--gold)}
+.tab.on::after{content:"";position:absolute;left:0;bottom:0;height:.28em;background:var(--gold);width:0;animation:pg var(--dur,20s) linear forwards}
+.pausado .tab.on::after{animation:none;width:100%;opacity:.35}
+@keyframes pg{to{width:100%}}
+.ctl{min-width:5.5em;border-radius:.9em;border:1px solid var(--line);background:var(--panel);font-weight:700}
+@media (max-width:900px){body{overflow:auto}.app{height:auto;min-height:100%}.slide{overflow:visible}.g4,.g3,.g2,.det{grid-template-columns:1fr 1fr}.tabs{grid-template-columns:repeat(4,1fr)}.bar{grid-template-columns:7em 1fr 5em}h1{font-size:2.3em}.nota{font-size:4.4em}}
+#bt.bars{gap:.22em}
+@media (orientation:portrait) and (min-width:600px){body{font-size:clamp(16px,2.1vw,44px)}.app{padding:2vh 3vw;gap:1.4vh}.g4,.g3,.det{grid-template-columns:1fr 1fr!important}.g3>.card:last-child:nth-child(odd){grid-column:span 2}.g2{grid-template-columns:1fr!important}[style*="repeat(5,1fr)"]{grid-template-columns:repeat(3,1fr)!important}[style*="repeat(2,1fr)"]{grid-template-columns:1fr!important}.tabs{grid-template-columns:repeat(4,1fr)}.tab{min-height:3em}h1{font-size:2.7em}h2{font-size:2.2em}.big{font-size:3em}.nota{font-size:5em}.cols{height:15em}.bar{grid-template-columns:minmax(7em,11em) 1fr 6em}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header><div class="logo">Jornada do <b>Saber</b></div><div class="fonte" id="fonte"></div></header>
+  <main>
+    <section class="slide on" id="s0" data-nome="Início"></section>
+    <section class="slide" id="sM" data-nome="Como medimos"></section>
+    <section class="slide" id="s1" data-nome="Engajamento"></section>
+    <section class="slide" id="s2" data-nome="Matérias"></section>
+    <section class="slide" id="s3" data-nome="Turmas"></section>
+    <section class="slide" id="s4" data-nome="Jogos"></section>
+    <section class="slide" id="s5" data-nome="Vozes dos alunos"></section>
+    <section class="slide" id="s6" data-nome="A plataforma"></section>
+  </main>
+  <nav><div class="tabs" id="tabs" role="tablist" aria-label="Seções"></div><button class="ctl" id="play" type="button" aria-label="Pausar ou retomar a troca automática">Pausar</button></nav>
+</div>
+<script>
+const D = {"kpi":{"alunos":423,"sessoes":1269,"concluidas":622,"respostas":69580,"acertos":51548,"partidas":24368,"turmas":15,"aulas":36,"nota":4.215094339622642,"opinioes":272,"ini":"2026-10-30","fim":"2026-11-13"},"engaj":{"alunos":314,"voltaram":195,"multi":183,"resp_med":222,"cem":194},"materia":[{"d":"arte","prof":"grazielle","alunos":204,"sessoes":284,"concluidas":127,"resp":16199,"ac":12232,"nota":4.0625,"opin":51},{"d":"ciencias","prof":"maiara","alunos":162,"sessoes":245,"concluidas":138,"resp":13526,"ac":10016,"nota":4.457142857142857,"opin":72},{"d":"historia","prof":"thiago","alunos":155,"sessoes":299,"concluidas":170,"resp":18156,"ac":13304,"nota":4.171428571428572,"opin":71},{"d":"matematica","prof":"jessica","alunos":151,"sessoes":266,"concluidas":117,"resp":13095,"ac":9863,"nota":4.127659574468085,"opin":48},{"d":"portugues","prof":"leticia","alunos":117,"sessoes":175,"concluidas":70,"resp":8604,"ac":6133,"nota":4.133333333333333,"opin":30}],"turma":[{"turma":"6A","alunos":42,"resp":11876,"acerto":75.1},{"turma":"6B","alunos":29,"resp":4812,"acerto":70.1},{"turma":"6C","alunos":27,"resp":6404,"acerto":73},{"turma":"7A","alunos":8,"resp":865,"acerto":85.3},{"turma":"7C","alunos":17,"resp":3477,"acerto":75.6},{"turma":"8A","alunos":23,"resp":3607,"acerto":70},{"turma":"8B","alunos":5,"resp":585,"acerto":74.7},{"turma":"8C","alunos":29,"resp":4744,"acerto":71.4},{"turma":"8D","alunos":32,"resp":8904,"acerto":72.1},{"turma":"8E","alunos":26,"resp":5992,"acerto":77.5},{"turma":"9A","alunos":14,"resp":2184,"acerto":81.4},{"turma":"9B","alunos":20,"resp":3961,"acerto":81.5},{"turma":"9C","alunos":21,"resp":5207,"acerto":80.2},{"turma":"9D","alunos":19,"resp":6382,"acerto":66.3},{"turma":"9E","alunos":6,"resp":580,"acerto":66.6}],"dia":[{"dia":"2026-10-30","alunos":1,"resp":21},{"dia":"2026-11-03","alunos":2,"resp":22},{"dia":"2026-11-04","alunos":90,"resp":8779},{"dia":"2026-11-05","alunos":178,"resp":19039},{"dia":"2026-11-06","alunos":41,"resp":2872},{"dia":"2026-11-09","alunos":1,"resp":354},{"dia":"2026-11-10","alunos":128,"resp":11927},{"dia":"2026-11-11","alunos":108,"resp":9101},{"dia":"2026-11-12","alunos":104,"resp":9919},{"dia":"2026-11-13","alunos":86,"resp":7546}],"hora":[{"h":7,"resp":6887},{"h":8,"resp":11688},{"h":9,"resp":9144},{"h":10,"resp":13982},{"h":11,"resp":7515},{"h":12,"resp":6617},{"h":13,"resp":8369},{"h":14,"resp":865},{"h":15,"resp":567},{"h":16,"resp":236},{"h":17,"resp":86},{"h":18,"resp":89},{"h":20,"resp":70},{"h":21,"resp":90},{"h":22,"resp":86},{"h":23,"resp":20}],"jogo":[{"jogo":"tabuleiro_jornada","partidas":1370,"resp":3789,"alunos":298,"nome":"Tabuleiro da Jornada","sub":"Jogue com seu grupo no mesmo tabuleiro"},{"jogo":"quem_erra_cai","partidas":577,"resp":9546,"alunos":254,"nome":"Quem Erra Cai","sub":"Construa a ponte, degrau a degrau"},{"jogo":"batalha_naval","partidas":415,"resp":18761,"alunos":248,"nome":"Radar das Relíquias","sub":"Coordenadas, perguntas e tesouros"},{"jogo":"verdade_mito","partidas":685,"resp":8294,"alunos":247,"nome":"Verdade ou Mito","sub":"Deslize e decida rápido"},{"jogo":"chefao","partidas":883,"resp":4718,"alunos":210,"nome":"Chefão","sub":"Derrote o guardião"},{"jogo":"roleta_tabuleiro","partidas":239,"resp":2549,"alunos":157,"nome":"Tabuleiro da Roleta (individual)","sub":"Gire, avance, conquiste chaves"},{"jogo":"corrida","partidas":314,"resp":3561,"alunos":151,"nome":"Grande Corrida","sub":"Ultrapasse os rivais"},{"jogo":"baloes","partidas":313,"resp":4125,"alunos":149,"nome":"Estoura-Balões","sub":"Acerte antes que fujam"},{"jogo":"forca","partidas":313,"resp":0,"alunos":129,"nome":"Desarme a Bomba","sub":"Descubra o termo antes do estopim"},{"jogo":"memoria","partidas":429,"resp":84,"alunos":122,"nome":"Memória dos Pares","sub":"Termo e definição"},{"jogo":"bingo","partidas":261,"resp":4668,"alunos":118,"nome":"Bingo do Saber","sub":"Marque a cartela"},{"jogo":"termo","partidas":199,"resp":0,"alunos":113,"nome":"Termo Secreto","sub":"Adivinhe a palavra em 6 tentativas"}],"opNota":[{"nota":1,"n":4},{"nota":2,"n":8},{"nota":3,"n":49},{"nota":4,"n":70},{"nota":5,"n":134},{"nota":null,"n":7}],"opDif":[{"dif":null,"n":24},{"dif":"facil","n":40},{"dif":"dificil","n":18},{"dif":"certa","n":190}],"citacoes":[{"d":"historia","t":"Nada, pra mim ta muito legal o jogo assim, da pra se divertir e aprender."},{"d":"historia","t":"Não mudaria nada, porque a plataforma é maravilhosa. Eu amei! Poderia ter esse joguinho em todas as aulas, porque, além de ser divertido, é educativo e as atividades ficam mais interessantes."},{"d":"arte","t":"Não mudaria nada, achei muito legal, e uma forma de decorar e aprender também"},{"d":"portugues","t":"nada, adorei derrotar O verbo teimoso"},{"d":"historia","t":"Nada o thiago fez incrivel"},{"d":"ciencias","t":"Nada, ta perfeito, amei!"},{"d":"arte","t":"EU MANTERIA O JOGO DO JEITO QUE ESTA, POIS FOI MUITO DIVERTIDO!"},{"d":"historia","t":"nao mudaria nada essa plataforma foi uma das mais uteis que ja criaram mesmo ainda em ajustes"},{"d":"portugues","t":"Não mudaria nada, o jogo é bem divertido e nos deixa mais entretido."},{"d":"historia","t":"Nao nada ta legal gostei muito legal uma nova forma de estudos"},{"d":"historia","t":"mudaria nada otimo aplicativo feito pelo um otimo professor"},{"d":"ciencias","t":"Eu não mudaria nada não eu acho que ficou bem legal"},{"d":"ciencias","t":"Nada adorei a atividade"},{"d":"historia","t":"Nada não, ta muito mais divertido assim, sem repitir as perguntas e jogos dinamicos"},{"d":"matematica","t":"Amei mudaria nada"},{"d":"arte","t":"Nada eu amei tudo foi muito legal"},{"d":"historia","t":"Nada o thiago sempre faz direito"},{"d":"arte","t":"Nada, gostei bastante dessa aula! As questões não estavam difíceis."},{"d":"matematica","t":"Acho que nada pois a ideia do jogo foi ótima pra mim!"},{"d":"historia","t":"Nada o thiago fez incrivel"},{"d":"portugues","t":"eu não mudaria nada o jogo ficou muito massa."},{"d":"arte","t":"Foi bem fácil, eu não mudaria nada."},{"d":"historia","t":"Eu não mudaria nada pra mim o jogo é ótimo"},{"d":"ciencias","t":"Não mudaria nada, amei."},{"d":"historia","t":"Acho que esta ótimo do jeito que esta"},{"d":"historia","t":"mudaria nada otimo aplicativo feito pelo um otimo professor"},{"d":"historia","t":"Os jogos estavam com nível bem próximo do que nós estamos no conteúdo atualmente e realmente ajudou para relembrar fatos importantes sobre a história."},{"d":"historia","t":"Aula foi bem de boa e gostei do site."},{"d":"historia","t":"Nada o thiago fez incrivel"},{"d":"portugues","t":"Nada foi tudo muito bom jogar"},{"d":"historia","t":"mudaria nada otimo aplicativo feito pelo um otimo professor"},{"d":"matematica","t":"bom do jeito que esta"},{"d":"historia","t":"Nada o thiago fez incrivel"},{"d":"historia","t":"mudaria nada otimo aplicativo feito pelo um otimo professor"}]};
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const fmt = (n) => Number(n).toLocaleString("pt-BR"), pct = (a, b) => Math.round((100 * a) / b), dec = (n, d = 1) => Number(n).toFixed(d).replace(".", ",");
+const MAT = { historia: ["História", "var(--hist)", "Prof. Thiago"], arte: ["Arte", "var(--arte)", "Profª Grazielle"], ciencias: ["Ciências", "var(--cie)", "Profª Maiara"], matematica: ["Matemática", "var(--mat)", "Profª Jéssica"], portugues: ["Português", "var(--por)", "Profª Letícia"] };
+const BRAND = { historia: "Arquivo Secreto do Historiador", arte: "O Museu Misterioso", matematica: "O Grande Cofre de Da Vinci", ciencias: "Bio-Lab de Contenção", portugues: "A Biblioteca Proibida" };
+const dia = (s) => s.slice(8, 10) + "/" + s.slice(5, 7);
+const bar = (t, v, max, rot, cor, attrs = "") => `<button type="button" class="bar" ${attrs} style="--c:${cor || "var(--gold)"}"><span class="t">${t}</span><span class="tr"><i style="width:${Math.max(2, (100 * v) / max)}%"></i></span><span class="v">${rot}</span></button>`;
+const k = D.kpi, e = D.engaj;
+$("#fonte").textContent = `Dados reais da plataforma, ${dia(k.ini)} a ${dia(k.fim)}/2026. Nenhum nome de aluno aparece aqui.`;
+
+// 0 Início
+$("#s0").innerHTML = `<span class="k">Exposição de projetos</span><h1>Cinco professores, cinco matérias,<br>uma jornada para estudar jogando</h1>
+<p class="sub">Os alunos entram numa sala de fuga, estudam as cartas, jogam, enfrentam um chefão e abrem o cofre final. Estes números vêm do uso real nas turmas.</p>
+<div class="grid g4">
+${[[k.alunos, "alunos jogaram", ""], [k.respostas, "perguntas respondidas", ""], [k.partidas, "partidas de minigames", ""], [k.aulas, "aulas transformadas em jornada", ""]].map(([n, r]) => `<div class="card"><div class="big" data-n="${n}">${fmt(n)}</div><div class="rot">${r}</div></div>`).join("")}</div>
+<div class="grid g3" style="margin-top:1.1em">${[["O que é", "Cada aula vira uma sala de fuga: o aluno estuda as cartas, joga minigames com as perguntas do conteúdo, enfrenta um chefão e abre o cofre final. Cada matéria tem a sua história e o seu professor."], ["Qual é o objetivo", "Fazer o aluno estudar de um jeito que ele queira repetir: praticar, errar sem medo, tentar de novo e ver o próprio avanço, com o professor acompanhando tudo na hora."], ["Por que funciona", "Pesquisas em educação mostram que aprender participando (responder, tentar e receber retorno na hora) costuma render mais do que só ouvir e copiar. O jogo traz a motivação e a metodologia ativa traz a prática no dia a dia."]].map(([t, p]) => `<div class="card"><span class="k">${t}</span><div class="rot" style="margin-top:0">${p}</div></div>`).join("")}</div>
+<p class="sub" style="margin-top:1em">${k.turmas} turmas do 6º ao 9º ano · 5 componentes curriculares · ${fmt(k.concluidas)} salas de fuga concluídas · ${dec(100 * k.acertos / k.respostas, 0)}% de acertos nas perguntas</p>`;
+
+// Como medimos
+$("#sM").innerHTML = `<h2>Como os números foram contados</h2><p class="sub">Tudo vem do registro automático da plataforma: cada resposta e cada jogo do aluno fica guardado na hora. Nada foi digitado à mão.</p>
+<div class="grid g3">${[["Alunos", "Cada aluno conta uma vez, mesmo que tenha jogado várias aulas ou várias matérias."], ["Perguntas respondidas", "Cada resposta dada conta. Como o mesmo aluno responde muitas vezes, não é a quantidade de perguntas diferentes."], ["Acertos", "Respostas certas divididas por todas as respostas dadas."], ["Partidas de minigames", "Cada vez que o aluno termina um jogo do Salão, ganhando ou perdendo, conta como uma partida. Avisos do sistema e troféus não entram."], ["Salas de fuga concluídas", "Contam quando o aluno chega ao cofre final e termina a aula."], ["Nota e opiniões", "Depois da aula o aluno dá uma nota de 1 a 5 e pode escrever o que pensa, se quiser. Aqui as frases aparecem sem nome."]].map(([t, p]) => `<div class="card"><span class="k">${t}</span><div class="rot" style="margin-top:0">${p}</div></div>`).join("")}</div>
+<div class="card" style="margin-top:1.1em"><span class="k">Bom saber</span><div class="rot" style="margin-top:0">Os gráficos de engajamento consideram só os dias de aula com a plataforma: 4, 5, 10, 11, 12 e 13 de novembro. Este painel mostra participação e desempenho durante o jogo. Ele não mede, sozinho, quanto cada aluno aprendeu.</div></div>`;
+
+// 1 Engajamento
+const dias = D.dia.filter((x) => ["2026-11-04", "2026-11-05", "2026-11-10", "2026-11-11", "2026-11-12", "2026-11-13"].includes(x.dia)), mx = Math.max(...dias.map((x) => x.alunos)), horas = D.hora.filter((x) => x.h >= 7 && x.h <= 13), mh = Math.max(...horas.map((x) => x.resp));
+$("#s1").innerHTML = `<h2>Eles voltaram para jogar de novo</h2><p class="sub">Entre os ${fmt(e.alunos)} alunos que responderam perguntas, a maioria não parou na primeira aula.</p>
+<div class="grid g4" style="margin-bottom:1.1em">
+${[[pct(e.voltaram, e.alunos), "%", "jogaram em mais de um dia"], [pct(e.multi, e.alunos), "%", "jogaram em duas ou mais matérias"], [e.cem, "", "alunos passaram de 100 respostas"], [e.resp_med, "", "respostas por aluno, em média"]].map(([n, u, r]) => `<div class="card"><div class="big" data-n="${n}">${fmt(n)}<small>${u}</small></div><div class="rot">${r}</div></div>`).join("")}</div>
+<div class="grid g2"><div class="card"><span class="k">Alunos por dia de jogo</span><div class="cols" id="cd">${dias.map((x, i) => `<button type="button" class="col" data-i="${i}"><b>${x.alunos}</b><i style="height:${(100 * x.alunos) / mx * .8}%"></i><span>${dia(x.dia)}</span></button>`).join("")}</div></div>
+<div class="card"><span class="k">Perguntas por horário</span><div class="cols" id="ch">${horas.map((x, i) => `<button type="button" class="col" data-i="${i}"><b>${fmt(x.resp)}</b><i style="height:${(100 * x.resp) / mh * .8}%"></i><span>${x.h}h</span></button>`).join("")}</div></div></div>
+<p class="dica" id="dica1">Toque numa coluna para ver o detalhe.</p>`;
+$$("#cd .col").forEach((b) => b.onclick = () => { const x = dias[b.dataset.i]; $$("#cd .col").forEach((c) => c.classList.toggle("sel", c === b)); $("#dica1").textContent = `${dia(x.dia)}: ${x.alunos} alunos jogaram e responderam ${fmt(x.resp)} perguntas.`; });
+$$("#ch .col").forEach((b) => b.onclick = () => { const x = horas[b.dataset.i]; $$("#ch .col").forEach((c) => c.classList.toggle("sel", c === b)); $("#dica1").textContent = `Às ${x.h}h foram respondidas ${fmt(x.resp)} perguntas, somando todos os dias.`; });
+
+// 2 Matérias
+$("#s2").innerHTML = `<h2>Uma jornada por matéria</h2><p class="sub">Cada professor montou as suas cartas, perguntas, personagens e chefões. Toque numa matéria para ver o detalhe.</p>
+<div class="grid g3" style="grid-template-columns:repeat(5,1fr)" id="mats">${D.materia.map((m) => { const [n, c, p] = MAT[m.d]; return `<button type="button" class="mat" data-d="${m.d}" style="--c:${c}"><h3>${n}</h3><span class="p">${p}</span><span class="n">${fmt(m.alunos)}</span><span class="p">alunos</span></button>`; }).join("")}</div>
+<div class="card" style="margin-top:1.1em" id="detM"></div>`;
+const showM = (d) => { const m = D.materia.find((x) => x.d === d), [n, c, p] = MAT[d]; $$("#mats .mat").forEach((b) => b.classList.toggle("sel", b.dataset.d === d));
+  $("#detM").style.setProperty("--c", c); $("#detM").innerHTML = `<span class="k">${n} · ${p}</span><div class="det">${[[fmt(m.resp), "perguntas respondidas"], [pct(m.ac, m.resp) + "%", "de acertos"], [fmt(m.concluidas), "salas de fuga concluídas"], [dec(m.nota, 1) + " de 5", `nota dada pelos alunos (${m.opin})`]].map(([a, b]) => `<div><b>${a}</b><span>${b}</span></div>`).join("")}</div>`; };
+$$("#mats .mat").forEach((b) => b.onclick = () => showM(b.dataset.d)); showM(D.materia[0].d);
+
+// 3 Turmas
+const ordem = { resp: ["perguntas respondidas", (t) => t.resp, (t) => fmt(t.resp)], alunos: ["alunos participantes", (t) => t.alunos, (t) => t.alunos], acerto: ["percentual de acertos", (t) => t.acerto, (t) => dec(t.acerto) + "%"] };
+$("#s3").innerHTML = `<h2>As ${D.turma.length} turmas em ação</h2><p class="sub">Participação de cada turma. Escolha como ordenar.</p>
+<div style="display:flex;gap:.6em;margin-bottom:.9em" id="ord">${Object.entries(ordem).map(([id, o], i) => `<button type="button" class="tab ${i ? "" : "on"}" style="min-height:2.8em;padding:.2em 1.2em" data-o="${id}">${o[0]}</button>`).join("")}</div><div class="card"><div class="bars" id="bt"></div></div>`;
+const drawT = (o) => { const [, f, r] = ordem[o], arr = [...D.turma].sort((a, b) => f(b) - f(a)), m = Math.max(...arr.map(f)); $$("#ord .tab").forEach((b) => b.classList.toggle("on", b.dataset.o === o));
+  $("#bt").innerHTML = arr.map((t) => bar(t.turma.replace(/^(\d)/, "$1º "), f(t), m, r(t), "var(--mat)")).join(""); };
+$$("#ord .tab").forEach((b) => b.onclick = () => { drawT(b.dataset.o); ordemAtual = b.dataset.o; }); let ordemAtual = "resp"; drawT("resp");
+
+// 4 Jogos
+const mj = Math.max(...D.jogo.map((j) => j.alunos));
+$("#s4").innerHTML = `<h2>Os jogos mais jogados</h2><p class="sub">Número de alunos diferentes que jogaram cada um. Toque para ler o que é.</p>
+<div class="grid g2"><div class="card"><div class="bars" id="bj">${D.jogo.map((j, i) => bar(j.nome, j.alunos, mj, fmt(j.alunos), "var(--gold)", `data-i="${i}"`)).join("")}</div></div>
+<div class="card" id="dj" style="align-self:start"></div></div>`;
+const showJ = (i) => { const j = D.jogo[i]; $$("#bj .bar").forEach((b) => b.classList.toggle("sel", +b.dataset.i === i)); $("#dj").innerHTML = `<span class="k">Jogo</span><h2>${j.nome}</h2><p class="sub">${j.sub}</p><div class="det" style="grid-template-columns:1fr 1fr"><div><b>${fmt(j.alunos)}</b><span>alunos</span></div><div><b>${fmt(j.partidas)}</b><span>partidas registradas</span></div></div>`; };
+$$("#bj .bar").forEach((b) => b.onclick = () => showJ(+b.dataset.i)); showJ(0);
+
+// 5 Vozes
+const nt = D.opNota.filter((x) => x.nota), tot = nt.reduce((a, x) => a + x.n, 0), alto = nt.filter((x) => x.nota >= 4).reduce((a, x) => a + x.n, 0), dif = D.opDif.filter((x) => x.dif), td = dif.reduce((a, x) => a + x.n, 0), certa = (dif.find((x) => x.dif === "certa") || { n: 0 }).n, mn = Math.max(...nt.map((x) => x.n));
+$("#s5").innerHTML = `<h2>Algumas opiniões dos alunos</h2><div class="grid g2" style="margin-top:.8em"><div class="card"><div class="nota">${dec(k.nota)}<small> de 5</small></div><div class="est" aria-hidden="true">${"★".repeat(Math.round(k.nota))}${"☆".repeat(5 - Math.round(k.nota))}</div>
+<p class="rot">média de ${tot} avaliações dadas pelos próprios alunos, no fim da aula</p><span class="pill"><b>${pct(alto, tot)}%</b> deram nota 4 ou 5</span><span class="pill"><b>${pct(certa, td)}%</b> acharam a dificuldade na medida certa</span>
+<div class="bars" style="margin-top:.8em">${[5, 4, 3, 2, 1].map((n) => { const x = nt.find((y) => y.nota === n) || { n: 0 }; return bar(n + " estrelas", x.n, mn, `${x.n} (${pct(x.n, tot)}%)`, "var(--gold)"); }).join("")}</div></div>
+<div class="card"><span class="k">Nota por matéria</span><div class="bars">${[...D.materia].sort((a, b) => b.nota - a.nota).map((m) => bar(MAT[m.d][0], m.nota, 5, dec(m.nota), MAT[m.d][1])).join("")}</div>
+<div class="cit" id="cit" aria-live="polite"></div><button type="button" class="ctl" id="proxC" style="padding:.5em 1.2em">Outra opinião</button></div></div>`;
+let ci = 0; D.citacoes = D.citacoes.slice(); const showC = () => { const c = D.citacoes[ci % D.citacoes.length]; $("#cit").innerHTML = `<q>${c.t}</q><small>aluno(a) de ${MAT[c.d][0]}, escrito por eles na avaliação</small>`; };
+$("#proxC").onclick = () => { ci++; showC(); }; showC(); setInterval(() => { ci++; showC(); }, 6000);
+
+// 6 Plataforma
+$("#s6").innerHTML = `<h2>Como a plataforma funciona</h2><p class="sub">Uma sala de fuga para cada aula. O aluno joga no celular ou no computador, e o professor acompanha tudo ao vivo.</p>
+<div class="grid g3">${[["1", "Mesa de investigação", "Estuda as cartas, abre os documentos e resolve o cadeado da aula."], ["2", "Salão de jogos", "Minigames com as perguntas da aula. A dificuldade se ajusta ao nível de cada aluno."], ["3", "Cofre final", "Com as chaves conquistadas, o aluno abre o cofre e escreve a sua resposta."]].map(([n, t, p]) => `<div class="card passo"><b>${n}</b><h3>${t}</h3><p>${p}</p></div>`).join("")}</div>
+<div class="grid g3" style="margin-top:1.1em;grid-template-columns:repeat(5,1fr)">${Object.entries(MAT).map(([id, [n, c, p]]) => `<div class="card eq" style="--c:${c}"><b>${BRAND[id]}</b><span>${p}</span></div>`).join("")}</div>
+<p class="sub" style="margin-top:1em">Cada aula tem personagem, cenas e um chefão para enfrentar. O professor vê o ranking, o engajamento e os resultados por aluno em tempo real.</p>`;
+
+// contagem animada ao entrar no slide (o texto final já está na página)
+const conta = (sl) => $$("[data-n]", sl).forEach((el) => { const n = +el.dataset.n, u = el.querySelector("small"), un = u ? u.outerHTML : ""; if (matchMedia("(prefers-reduced-motion:reduce)").matches) return; const t0 = performance.now(); (function f(t) { const p = Math.min(1, (t - t0) / 1100); el.innerHTML = fmt(Math.round(n * (1 - Math.pow(1 - p, 3)))) + un; if (p < 1) requestAnimationFrame(f); })(t0); });
+// navegação: troca sozinha a cada 22 s; ao tocar, pausa por 60 s e volta
+const slides = $$(".slide"), DUR = 22000; let at = 0, timer = 0, pausa = 0, manual = false;
+$("#tabs").innerHTML = slides.map((s, i) => `<button type="button" class="tab" role="tab" data-i="${i}">${s.dataset.nome}</button>`).join("");
+const ir = (i) => { at = (i + slides.length) % slides.length; slides.forEach((s, j) => s.classList.toggle("on", j === at)); $$(".tab[data-i]").forEach((t, j) => { t.classList.toggle("on", j === at); t.setAttribute("aria-selected", j === at); if (j === at) { t.style.setProperty("--dur", DUR + "ms"); t.classList.remove("on"); void t.offsetWidth; t.classList.add("on"); } }); conta(slides[at]); agenda(); };
+const agenda = () => { clearTimeout(timer); if (manual) return; timer = setTimeout(() => ir(at + 1), DUR); };
+const toque = () => { clearTimeout(pausa); if (manual) return; clearTimeout(timer); $("#app").classList.add("pausado"); pausa = setTimeout(() => { $("#app").classList.remove("pausado"); ir(at); }, 60000); };
+$("#tabs").onclick = (ev) => { const b = ev.target.closest(".tab"); if (b) { ir(+b.dataset.i); toque(); } };
+$("#play").onclick = () => { manual = !manual; clearTimeout(pausa); $("#play").textContent = manual ? "Retomar" : "Pausar"; $("#app").classList.toggle("pausado", manual); manual ? clearTimeout(timer) : ir(at); };
+addEventListener("keydown", (ev) => { if (ev.key === "ArrowRight") { ir(at + 1); toque(); } if (ev.key === "ArrowLeft") { ir(at - 1); toque(); } });
+$("main").addEventListener("pointerdown", toque);
+ir(0);
+</script>
+</body>
+</html>
