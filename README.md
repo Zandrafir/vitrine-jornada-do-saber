@@ -11,7 +11,7 @@ Painel de apresentação (BI) do projeto Jornada do Saber, feito para um totem v
 Os números ficam no objeto `D` dentro do `index.html`. As sugestões dos alunos entram em `D.sugestoes`, no formato `{d:"historia", t:"texto"}` (sem nomes nem RA).
 
 ## Aba "Futuras implementações"
-Demonstração de uma aula de revisão (Iluminismo) montada por IA e revisada pelo professor, inspirada no projeto OpenMAIC (THU-MAIC, MIT). O conteúdo foi gerado antes da exposição; nada é gerado ao vivo e não há chave de API no repositório.
+Mostra a gravação (sem áudio, 46 s, embutida no próprio `index.html`) de uma aula de revisão de Iluminismo gerada de verdade com o OpenMAIC (THU-MAIC, licença MIT) a partir de um único pedido. O professor revisaria antes de publicar. Nada é gerado ao vivo na página e não há chave de API no repositório. O arquivo original da gravação está em `demo/openmaic.mp4`.
 
 ## Créditos
 - Freeman e outros, PNAS, 2014: aprendizagem ativa em 225 estudos de CTEM.
