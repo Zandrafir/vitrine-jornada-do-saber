@@ -18,6 +18,7 @@ Tempo: ao entrar na aba, espera 5 s, toca o vídeo e, 10 s depois que ele termin
 Som no totem: o Chrome só toca áudio sozinho se for aberto com `--autoplay-policy=no-user-gesture-required`, por exemplo:
 `chrome.exe --kiosk --autoplay-policy=no-user-gesture-required "caminho\\index.html"`
 Sem essa opção o vídeo toca mudo; um toque na tela liga o som.
+O botão pequeno de som no canto do vídeo liga e desliga o áudio e lembra a escolha (útil para o caso de a sala ficar vazia).
 
 Narração: voz neural pt-BR gerada com edge-tts (AntonioNeural). Nada é gerado ao vivo e não há chave de API no repositório.
 
