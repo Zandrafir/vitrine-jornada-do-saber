@@ -11,8 +11,17 @@ Painel de apresentação (BI) do projeto Jornada do Saber, feito para um totem v
 Os números ficam no objeto `D` dentro do `index.html`. As sugestões dos alunos entram em `D.sugestoes`, no formato `{d:"historia", t:"texto"}` (sem nomes nem RA).
 
 ## Aba "Futuras implementações"
-Mostra a gravação (sem áudio, 46 s, embutida no próprio `index.html`) de uma aula de revisão de Iluminismo gerada de verdade com o OpenMAIC (THU-MAIC, licença MIT) a partir de um único pedido. O professor revisaria antes de publicar. Nada é gerado ao vivo na página e não há chave de API no repositório. O arquivo original da gravação está em `demo/openmaic.mp4`.
+Toca um vídeo de divulgação (68 s, com narração) sobre a ideia de aulas geradas por IA e revisadas pelo professor. As cenas são de uma aula de Iluminismo gerada de verdade com o OpenMAIC (THU-MAIC, licença MIT). O vídeo está embutido no `index.html`, então o arquivo continua único e funciona offline. Cópia solta em `demo/divulgacao.mp4`.
+
+Tempo: ao entrar na aba, espera 5 s, toca o vídeo e, 10 s depois que ele termina, o rodízio segue.
+
+Som no totem: o Chrome só toca áudio sozinho se for aberto com `--autoplay-policy=no-user-gesture-required`, por exemplo:
+`chrome.exe --kiosk --autoplay-policy=no-user-gesture-required "caminho\\index.html"`
+Sem essa opção o vídeo toca mudo; um toque na tela liga o som.
+
+Narração: voz neural pt-BR gerada com edge-tts (AntonioNeural). Nada é gerado ao vivo e não há chave de API no repositório.
 
 ## Créditos
 - Freeman e outros, PNAS, 2014: aprendizagem ativa em 225 estudos de CTEM.
 - Fontes: SIL Open Font License.
+- Aula de exemplo: OpenMAIC (THU-MAIC), MIT.
