@@ -11,7 +11,7 @@ Painel de apresentação (BI) do projeto Jornada do Saber, feito para um totem v
 Os números ficam no objeto `D` dentro do `index.html`. As sugestões dos alunos entram em `D.sugestoes`, no formato `{d:"historia", t:"texto"}` (sem nomes nem RA).
 
 ## Aba "Futuras implementações"
-Toca um vídeo de divulgação (84 s, com narração) mostrando a Jornada do Saber (mesa de investigação, salão de jogos, chefão, painel do professor e aula de IA) e o Estúdio do Professor (plano de aula, prova e atividade adaptada). As cenas foram gravadas no modo Apresentação do jogo (dados fictícios) e no ambiente de teste do Estúdio. A narração foi gerada com ElevenLabs (voz Nassif); nenhuma chave de API fica neste repositório. A versão anterior (68 s, OpenMAIC) está em `demo/divulgacao-antigo.mp4`. O vídeo está embutido no `index.html`, então o arquivo continua único e funciona offline. Cópia solta em `demo/divulgacao.mp4`.
+Toca um vídeo de divulgação (91 s, com narração) mostrando a Jornada do Saber (mesa de investigação, salão de jogos, chefão, painel do professor e aula de IA) e, em futuras implementações, o Estúdio do Professor (que orienta a criação de plano de aula, prova e atividade adaptada). O vídeo termina com o logo Jornada do Saber + OpenMAIC, que gera as aulas de IA. As cenas foram gravadas no modo Apresentação do jogo (dados fictícios) e no ambiente de teste do Estúdio. A narração foi gerada com ElevenLabs (voz Nassif); nenhuma chave de API fica neste repositório. A versão anterior (68 s, OpenMAIC) está em `demo/divulgacao-antigo.mp4`. O vídeo está embutido no `index.html`, então o arquivo continua único e funciona offline. Cópia solta em `demo/divulgacao.mp4`.
 
 Tempo: ao entrar na aba, espera 5 s, toca o vídeo e, 10 s depois que ele termina, o rodízio segue.
 
